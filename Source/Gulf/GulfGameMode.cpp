@@ -30,7 +30,7 @@ void AGulfGameMode::RegisterHoleSpawn(FTransform trans)
 		{
 			Iterator->Get()->GetPawn()->SetActorEnableCollision(false);
 			Iterator->Get()->GetPawn()->SetActorLocationAndRotation(trans.GetLocation(), trans.GetRotation().Rotator(), false, nullptr, ETeleportType::TeleportPhysics);
-			Iterator->Get()->GetPawn()->SetActorEnableCollision(false);
+			Iterator->Get()->GetPawn()->SetActorEnableCollision(true);
 		}
 	}
 }
