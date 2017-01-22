@@ -1,4 +1,6 @@
 Gulf.VC.db
-*.h.pch
+**/*.h.pch
+**/*.pdb
+**/*.log
+.vs
 Saved
-Intermediate

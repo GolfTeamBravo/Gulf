@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<None Include="..\..\Gulf.uproject" />
+		<Filter Include="Source">
+			<UniqueIdentifier>{A4C4AA01-1B1D-4B22-98B5-56333FAD1797}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\Gulf.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<None Include="..\..\Source\GulfEditor.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<Filter Include="Config">
+			<UniqueIdentifier>{1631F642-3995-497D-A63B-A5DB9ED36D1E}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Config\DefaultEditor.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultEngine.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultGame.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultInput.ini">
+			<Filter>Config</Filter>
+		</None >
+		<Filter Include="Source\Gulf">
+			<UniqueIdentifier>{CA19E64B-1B19-40C1-91D3-8C76C7126BEF}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\Gulf\Gulf.Build.cs">
+			<Filter>Source\Gulf</Filter>
+		</None >
+		<ClCompile Include="..\..\Source\Gulf\Gulf.cpp">
+			<Filter>Source\Gulf</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\Gulf\Gulf.h">
+			<Filter>Source\Gulf</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\Gulf\GulfBall.cpp">
+			<Filter>Source\Gulf</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\Gulf\GulfBall.h">
+			<Filter>Source\Gulf</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\Gulf\GulfGameMode.cpp">
+			<Filter>Source\Gulf</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\Gulf\GulfGameMode.h">
+			<Filter>Source\Gulf</Filter>
+		</ClInclude >
+	</ItemGroup>
+</Project>

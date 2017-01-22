@@ -36,6 +36,9 @@ public:
 
 protected:
 
+    void TurnCameraX(float val);
+    void TurnCameraY(float val);
+
 	/** Called for side to side input */
 	void MoveRight(float Val);
 

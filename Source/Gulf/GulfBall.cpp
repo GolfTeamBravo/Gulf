@@ -9,13 +9,14 @@ AGulfBall::AGulfBall()
 
 	// Create mesh component for the ball
 	Ball = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Ball0"));
+    Ball->SetWorldScale3D(FVector(0.2f, 0.2f, 0.2f));
 	Ball->SetStaticMesh(BallMesh.Object);
 	Ball->BodyInstance.SetCollisionProfileName(UCollisionProfile::PhysicsActor_ProfileName);
 	Ball->SetSimulatePhysics(true);
 	Ball->SetAngularDamping(0.1f);
 	Ball->SetLinearDamping(0.1f);
-	Ball->BodyInstance.MassScale = 3.5f;
-	Ball->BodyInstance.MaxAngularVelocity = 800.0f;
+	Ball->BodyInstance.MassScale = 1.0f;
+	Ball->BodyInstance.MaxAngularVelocity = 100.0f;
 	Ball->SetNotifyRigidBodyCollision(true);
 	RootComponent = Ball;
 
@@ -36,7 +37,7 @@ AGulfBall::AGulfBall()
 
 	// Set up forces
 	RollTorque = 50000000.0f;
-	JumpImpulse = 350000.0f;
+	JumpImpulse = 3500.0f;
 	bCanJump = true; // Start being able to jump
 }
 
@@ -52,6 +53,17 @@ void AGulfBall::SetupPlayerInputComponent(class UInputComponent* PlayerInputComp
 	// handle touch devices
 	PlayerInputComponent->BindTouch(IE_Pressed, this, &AGulfBall::TouchStarted);
 	PlayerInputComponent->BindTouch(IE_Released, this, &AGulfBall::TouchStopped);
+
+    PlayerInputComponent->BindAxis("TurnCameraX", this, &AGulfBall::TurnCameraX);
+    PlayerInputComponent->BindAxis("TurnCameraY", this, &AGulfBall::TurnCameraY);
+}
+
+void AGulfBall::TurnCameraX(float val) {
+    Camera->AddLocalRotation(FQuat(0.0f, 0.0f, val / 100.0f, 1.0f));
+}
+
+void AGulfBall::TurnCameraY(float val) {
+    Camera->AddLocalRotation(FQuat(0.0f, -val / 100.0f, 0.0f, 1.0f));
 }
 
 void AGulfBall::MoveRight(float Val)
