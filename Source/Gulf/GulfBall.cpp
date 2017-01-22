@@ -4,6 +4,8 @@
 #include "GulfBall.h"
 //#include <Engine.h>
 
+const float maxDeployPower = 3.0f;
+
 AGulfBall::AGulfBall()
 {
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> BallMesh(TEXT("/Game/Rolling/Meshes/BallMesh.BallMesh"));
@@ -60,6 +62,27 @@ void AGulfBall::SetupPlayerInputComponent(class UInputComponent* PlayerInputComp
     PlayerInputComponent->BindAction("Deploy", IE_Released, this, &AGulfBall::DeployEnd);
 }
 
+ENGINE_API void DrawDebugLine(
+    const UWorld* InWorld,
+    FVector const& LineStart,
+    FVector const& LineEnd,
+    FColor const& Color,
+    bool bPersistentLines = false,
+    float LifeTime = -1.f,
+    uint8 DepthPriority = 0,
+    float Thickness = 0.f
+);
+
+void AGulfBall::Tick(float delta) {
+    APawn::Tick(delta);
+    if (bIsDeploying) {
+        auto direction = Camera->GetComponentRotation().Vector();
+        direction.Z = 0.0f;
+        auto color = FColor(deployPower / maxDeployPower * 255, 0, 128 - (deployPower / maxDeployPower) * 128, 255);
+        DrawDebugLine(this->GetWorld(), Ball->GetComponentLocation(), Ball->GetComponentLocation() + direction * deployPower * 300, color, false, 0.0f, 0, 8.0f);
+    }
+}
+
 void AGulfBall::DeployStart() {
     bIsDeploying = true;
     deployPower = 0.0f;
@@ -80,12 +103,12 @@ void AGulfBall::TurnCameraY(float val) {
     if (bIsDeploying) {
         deployPower += val / 100.0f;
         if (deployPower < 0.0f) deployPower = 0.0f;
-        if (deployPower > 10.0f) deployPower = 100.0f;
+        if (deployPower > maxDeployPower) deployPower = maxDeployPower;
         return;
     }
     SpringArm->AddLocalRotation(FQuat(0.0f, -val / 100.0f, 0.0f, 1.0f));
     auto rot = SpringArm->GetRelativeTransform().Rotator();
-    if (rot.Pitch > 0.0f) rot.Pitch = 0.0f;
+    if (rot.Pitch > -5.0f) rot.Pitch = -5.0f;
     if (rot.Pitch < -66.0f) rot.Pitch = -65.0f;
     SpringArm->SetRelativeRotation(rot.Quaternion());
 }
