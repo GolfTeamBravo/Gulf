@@ -4,6 +4,8 @@
 #include "GulfBall.h"
 //#include <Engine.h>
 
+const float maxDeployPower = 3.0f;
+
 AGulfBall::AGulfBall()
 {
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> BallMesh(TEXT("/Game/Rolling/Meshes/BallMesh.BallMesh"));
@@ -76,7 +78,8 @@ void AGulfBall::Tick(float delta) {
     if (bIsDeploying) {
         auto direction = Camera->GetComponentRotation().Vector();
         direction.Z = 0.0f;
-        DrawDebugLine(this->GetWorld(), Ball->GetComponentLocation(), Ball->GetComponentLocation() + direction * deployPower * 500, FColor(255,0,0,255), false, 0.0f, 0, 8.0f);
+        auto color = FColor(deployPower / maxDeployPower * 255, 0, 128 - (deployPower / maxDeployPower) * 128, 255);
+        DrawDebugLine(this->GetWorld(), Ball->GetComponentLocation(), Ball->GetComponentLocation() + direction * deployPower * 300, color, false, 0.0f, 0, 8.0f);
     }
 }
 
@@ -100,7 +103,7 @@ void AGulfBall::TurnCameraY(float val) {
     if (bIsDeploying) {
         deployPower += val / 100.0f;
         if (deployPower < 0.0f) deployPower = 0.0f;
-        if (deployPower > 10.0f) deployPower = 100.0f;
+        if (deployPower > maxDeployPower) deployPower = maxDeployPower;
         return;
     }
     SpringArm->AddLocalRotation(FQuat(0.0f, -val / 100.0f, 0.0f, 1.0f));
