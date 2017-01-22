@@ -23,6 +23,8 @@ class AGulfBall : public APawn
 public:
 	AGulfBall();
 
+    virtual void Tick(float delta) override;
+
 	/** Vertical impulse to apply when pressing jump */
 	UPROPERTY(EditAnywhere, Category=Ball)
 	float JumpImpulse;

@@ -60,6 +60,26 @@ void AGulfBall::SetupPlayerInputComponent(class UInputComponent* PlayerInputComp
     PlayerInputComponent->BindAction("Deploy", IE_Released, this, &AGulfBall::DeployEnd);
 }
 
+ENGINE_API void DrawDebugLine(
+    const UWorld* InWorld,
+    FVector const& LineStart,
+    FVector const& LineEnd,
+    FColor const& Color,
+    bool bPersistentLines = false,
+    float LifeTime = -1.f,
+    uint8 DepthPriority = 0,
+    float Thickness = 0.f
+);
+
+void AGulfBall::Tick(float delta) {
+    APawn::Tick(delta);
+    if (bIsDeploying) {
+        auto direction = Camera->GetComponentRotation().Vector();
+        direction.Z = 0.0f;
+        DrawDebugLine(this->GetWorld(), Ball->GetComponentLocation(), Ball->GetComponentLocation() + direction * deployPower * 500, FColor(255,0,0,255), false, 0.0f, 0, 8.0f);
+    }
+}
+
 void AGulfBall::DeployStart() {
     bIsDeploying = true;
     deployPower = 0.0f;
@@ -85,7 +105,7 @@ void AGulfBall::TurnCameraY(float val) {
     }
     SpringArm->AddLocalRotation(FQuat(0.0f, -val / 100.0f, 0.0f, 1.0f));
     auto rot = SpringArm->GetRelativeTransform().Rotator();
-    if (rot.Pitch > 0.0f) rot.Pitch = 0.0f;
+    if (rot.Pitch > -5.0f) rot.Pitch = -5.0f;
     if (rot.Pitch < -66.0f) rot.Pitch = -65.0f;
     SpringArm->SetRelativeRotation(rot.Quaternion());
 }
