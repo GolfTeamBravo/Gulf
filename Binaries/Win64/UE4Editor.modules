@@ -1,9 +1,16 @@
 {
 	"Changelist" : 3249277,
 	"CompatibleChangelist" : 3195953,
+<<<<<<< Updated upstream
 	"BuildId" : "cebb16ca-ca51-4a8d-a0c2-b6f9d41eb003",
 	"Modules" : 
 	{
 		"Gulf" : "UE4Editor-Gulf-1387.dll"
+=======
+	"BuildId" : "",
+	"Modules" : 
+	{
+		"Gulf" : "UE4Editor-Gulf-6616.dll"
+>>>>>>> Stashed changes
 	}
 }
