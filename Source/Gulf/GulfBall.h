@@ -9,15 +9,15 @@ class AGulfBall : public APawn
 	GENERATED_BODY()
 
 	/** StaticMesh used for the ball */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Ball, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, BlueprintReadOnly, Category = Ball, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* Ball;
 
 	/** Spring arm for positioning the camera above the ball */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Ball, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category = Ball, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* SpringArm;
 
 	/** Camera to view the ball */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Ball, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category = Ball, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* Camera;
 
 public:
@@ -34,20 +34,34 @@ public:
 	float RollTorque;
 
 	/** Indicates whether we can currently jump, use to prevent double jumping */
+	UPROPERTY(Replicated)
 	bool bCanJump;
 
+	UPROPERTY(Replicated)
     bool bIsDeploying;
+
+	UPROPERTY(Replicated)
     float deployPower;
 protected:
-
+	UFUNCTION(Reliable, Server, WithValidation)
     void TurnCameraX(float val);
+	virtual bool TurnCameraX_Validate();
+	UFUNCTION(Reliable, Server, WithValidation)
     void TurnCameraY(float val);
+	virtual bool TurnCameraY_Validate();
     void Zoom(float val);
+
+	UFUNCTION(Reliable, Server, WithValidation)
     void DeployStart();
+	virtual bool DeployStart_Validate();
+	UFUNCTION(Reliable, Server, WithValidation)
     void DeployEnd();
+	virtual bool DeployEnd_Validate();
 
 	/** Handle jump action. */
+	UFUNCTION(Reliable, Server, WithValidation)
 	void Jump();
+	virtual bool Jump_Validate();
 
 	// AActor interface
 	virtual void NotifyHit(class UPrimitiveComponent* MyComp, class AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;

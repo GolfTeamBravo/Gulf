@@ -29,7 +29,7 @@ AGulfBall::AGulfBall()
 	SpringArm->bDoCollisionTest = false;
 	SpringArm->bAbsoluteRotation = true; // Rotation of the ball should not affect rotation of boom
 	SpringArm->RelativeRotation = FRotator(-45.f, 0.f, 0.f);
-	SpringArm->TargetArmLength = 1200.f;
+	SpringArm->TargetArmLength = 1000.f;
 	SpringArm->bEnableCameraLag = false;
 	SpringArm->CameraLagSpeed = 3.f;
 
@@ -83,23 +83,23 @@ void AGulfBall::Tick(float delta) {
     }
 }
 
-void AGulfBall::DeployStart() {
+void AGulfBall::DeployStart_Implementation() {
     bIsDeploying = true;
     deployPower = 0.0f;
 }
 
-void AGulfBall::DeployEnd() {
+void AGulfBall::DeployEnd_Implementation() {
     bIsDeploying = false;
-    auto direction = Camera->GetComponentRotation().Vector();
+	auto direction = Camera->GetComponentRotation().Vector();
     direction.Z = 0.0f;
     Ball->AddImpulse(direction * 10000.0f * deployPower * 2);
 }
 
-void AGulfBall::TurnCameraX(float val) {
+void AGulfBall::TurnCameraX_Implementation(float val) {
     SpringArm->AddRelativeRotation(FQuat(0.0f, 0.0f, val / 100.0f, 1.0f));
 }
 
-void AGulfBall::TurnCameraY(float val) {
+void AGulfBall::TurnCameraY_Implementation(float val) {
     if (bIsDeploying) {
         deployPower += val / 100.0f;
         if (deployPower < 0.0f) deployPower = 0.0f;
@@ -119,7 +119,7 @@ void AGulfBall::Zoom(float val) {
     if (SpringArm->TargetArmLength > 2000) SpringArm->TargetArmLength = 2000;
 }
 
-void AGulfBall::Jump()
+void AGulfBall::Jump_Implementation()
 {
 	if(bCanJump)
 	{
@@ -155,4 +155,43 @@ void AGulfBall::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 		Ball->AddImpulse(Impulse);
 		bCanJump = false;
 	}
+}
+
+#include "UnrealNetwork.h"
+
+void AGulfBall::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	// Replicate to everyone
+	DOREPLIFETIME(AGulfBall, bCanJump);
+	DOREPLIFETIME(AGulfBall, deployPower);
+	DOREPLIFETIME(AGulfBall, bIsDeploying);
+	DOREPLIFETIME(AGulfBall, SpringArm);
+	DOREPLIFETIME(AGulfBall, Camera);
+}
+
+bool AGulfBall::DeployStart_Validate()
+{
+	return true;
+}
+
+bool AGulfBall::DeployEnd_Validate()
+{
+	return true;
+}
+
+bool AGulfBall::Jump_Validate()
+{
+	return true;
+}
+
+bool AGulfBall::TurnCameraX_Validate(float val)
+{
+	return true;
+}
+
+bool AGulfBall::TurnCameraY_Validate(float val)
+{
+	return true;
 }
