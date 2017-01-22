@@ -6,13 +6,52 @@
 ===========================================================================*/
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+struct FTransform;
 #ifdef GULF_GulfGameMode_generated_h
 #error "GulfGameMode.generated.h already included, missing '#pragma once' in GulfGameMode.h"
 #endif
 #define GULF_GulfGameMode_generated_h
 
-#define Gulf_Source_Gulf_GulfGameMode_h_9_RPC_WRAPPERS
-#define Gulf_Source_Gulf_GulfGameMode_h_9_RPC_WRAPPERS_NO_PURE_DECLS
+#define Gulf_Source_Gulf_GulfGameMode_h_9_RPC_WRAPPERS \
+ \
+	DECLARE_FUNCTION(execRegisterHoleSpawn) \
+	{ \
+		P_GET_STRUCT(FTransform,Z_Param_trans); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		this->RegisterHoleSpawn(Z_Param_trans); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execBallInHole) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		this->BallInHole(); \
+		P_NATIVE_END; \
+	}
+
+
+#define Gulf_Source_Gulf_GulfGameMode_h_9_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execRegisterHoleSpawn) \
+	{ \
+		P_GET_STRUCT(FTransform,Z_Param_trans); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		this->RegisterHoleSpawn(Z_Param_trans); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execBallInHole) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		this->BallInHole(); \
+		P_NATIVE_END; \
+	}
+
+
 #define Gulf_Source_Gulf_GulfGameMode_h_9_INCLASS_NO_PURE_DECLS \
 	private: \
 	static void StaticRegisterNativesAGulfGameMode(); \

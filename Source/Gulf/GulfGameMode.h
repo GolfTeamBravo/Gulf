@@ -8,9 +8,15 @@ class AGulfGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
+	int numInHole;
+	int holeNumber;
+	TArray<FTransform> spawns;
 public:
+	UFUNCTION(BlueprintCallable, Category="Gulf")
+		void BallInHole();
+
+	UFUNCTION(BlueprintCallable, Category="Gulf")
+	void RegisterHoleSpawn(FTransform trans);
+
 	AGulfGameMode();
 };
-
-
-
