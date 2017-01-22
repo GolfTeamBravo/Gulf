@@ -34,16 +34,15 @@ public:
 	/** Indicates whether we can currently jump, use to prevent double jumping */
 	bool bCanJump;
 
+    bool bIsDeploying;
+    float deployPower;
 protected:
 
     void TurnCameraX(float val);
     void TurnCameraY(float val);
-
-	/** Called for side to side input */
-	void MoveRight(float Val);
-
-	/** Called to move ball forwards and backwards */
-	void MoveForward(float Val);
+    void Zoom(float val);
+    void DeployStart();
+    void DeployEnd();
 
 	/** Handle jump action. */
 	void Jump();

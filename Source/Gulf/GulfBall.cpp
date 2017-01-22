@@ -2,6 +2,7 @@
 
 #include "Gulf.h"
 #include "GulfBall.h"
+//#include <Engine.h>
 
 AGulfBall::AGulfBall()
 {
@@ -39,43 +40,60 @@ AGulfBall::AGulfBall()
 	RollTorque = 50000000.0f;
 	JumpImpulse = 3500.0f;
 	bCanJump = true; // Start being able to jump
+    bIsDeploying = false;
+    deployPower = 0.0f;
 }
 
 
 void AGulfBall::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
-	// set up gameplay key bindings
-	PlayerInputComponent->BindAxis("MoveRight", this, &AGulfBall::MoveRight);
-	PlayerInputComponent->BindAxis("MoveForward", this, &AGulfBall::MoveForward);
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AGulfBall::Jump);
-
 	// handle touch devices
 	PlayerInputComponent->BindTouch(IE_Pressed, this, &AGulfBall::TouchStarted);
 	PlayerInputComponent->BindTouch(IE_Released, this, &AGulfBall::TouchStopped);
 
     PlayerInputComponent->BindAxis("TurnCameraX", this, &AGulfBall::TurnCameraX);
     PlayerInputComponent->BindAxis("TurnCameraY", this, &AGulfBall::TurnCameraY);
+    PlayerInputComponent->BindAxis("Zoom", this, &AGulfBall::Zoom);
+    PlayerInputComponent->BindAction("Deploy", IE_Pressed, this, &AGulfBall::DeployStart);
+    PlayerInputComponent->BindAction("Deploy", IE_Released, this, &AGulfBall::DeployEnd);
+}
+
+void AGulfBall::DeployStart() {
+    bIsDeploying = true;
+    deployPower = 0.0f;
+}
+
+void AGulfBall::DeployEnd() {
+    bIsDeploying = false;
+    auto direction = Camera->GetComponentRotation().Vector();
+    direction.Z = 0.0f;
+    Ball->AddImpulse(direction * 10000.0f * deployPower * 2);
 }
 
 void AGulfBall::TurnCameraX(float val) {
-    Camera->AddLocalRotation(FQuat(0.0f, 0.0f, val / 100.0f, 1.0f));
+    SpringArm->AddRelativeRotation(FQuat(0.0f, 0.0f, val / 100.0f, 1.0f));
 }
 
 void AGulfBall::TurnCameraY(float val) {
-    Camera->AddLocalRotation(FQuat(0.0f, -val / 100.0f, 0.0f, 1.0f));
+    if (bIsDeploying) {
+        deployPower += val / 100.0f;
+        if (deployPower < 0.0f) deployPower = 0.0f;
+        if (deployPower > 10.0f) deployPower = 100.0f;
+        return;
+    }
+    SpringArm->AddLocalRotation(FQuat(0.0f, -val / 100.0f, 0.0f, 1.0f));
+    auto rot = SpringArm->GetRelativeTransform().Rotator();
+    if (rot.Pitch > 0.0f) rot.Pitch = 0.0f;
+    if (rot.Pitch < -66.0f) rot.Pitch = -65.0f;
+    SpringArm->SetRelativeRotation(rot.Quaternion());
 }
 
-void AGulfBall::MoveRight(float Val)
-{
-	const FVector Torque = FVector(-1.f * Val * RollTorque, 0.f, 0.f);
-	Ball->AddTorque(Torque);
-}
-
-void AGulfBall::MoveForward(float Val)
-{
-	const FVector Torque = FVector(0.f, Val * RollTorque, 0.f);
-	Ball->AddTorque(Torque);	
+void AGulfBall::Zoom(float val) {
+    SpringArm->TargetArmLength += val * -100.0f;
+    if (SpringArm->TargetArmLength < 400) SpringArm->TargetArmLength = 400;
+    if (SpringArm->TargetArmLength > 2000) SpringArm->TargetArmLength = 2000;
 }
 
 void AGulfBall::Jump()

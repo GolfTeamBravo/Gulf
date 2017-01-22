@@ -1,9 +1,9 @@
 {
 	"Changelist" : 3249277,
 	"CompatibleChangelist" : 3195953,
-	"BuildId" : "8edab464-5d1d-489a-9e01-75cde84f43c3",
+	"BuildId" : "95c8b39f-c7d4-4c65-9f69-16e9fd6ea019",
 	"Modules" : 
 	{
-		"Gulf" : "UE4Editor-Gulf-2162.dll"
+		"Gulf" : "UE4Editor-Gulf-7325.dll"
 	}
 }
