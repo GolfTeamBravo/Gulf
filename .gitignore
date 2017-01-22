@@ -4,3 +4,4 @@ Gulf.VC.db
 **/*.log
 .vs
 Saved
+Intermediate/Build/Win64/UE4Editor

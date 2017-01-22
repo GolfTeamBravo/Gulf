@@ -2,7 +2,7 @@
 	"TargetName" : "GulfEditor",
 	"Platform" : "Win64",
 	"Configuration" : "Development",
-	"BuildId" : "95c8b39f-c7d4-4c65-9f69-16e9fd6ea019",
+	"BuildId" : "cebb16ca-ca51-4a8d-a0c2-b6f9d41eb003",
 	"Version" : 
 	{
 		"MajorVersion" : 4,
@@ -16,15 +16,15 @@
 	"BuildProducts" :
 	[
 		{
-			"Path" : "$(ProjectDir)/Binaries/Win64/UE4Editor-Gulf-1172.dll",
+			"Path" : "$(ProjectDir)/Binaries/Win64/UE4Editor-Gulf-5597.dll",
 			"Type" : "DynamicLibrary"
 		},
 		{
-			"Path" : "$(ProjectDir)/Binaries/Win64/UE4Editor-Gulf-1172.pdb",
+			"Path" : "$(ProjectDir)/Binaries/Win64/UE4Editor-Gulf-5597.pdb",
 			"Type" : "SymbolFile"
 		},
 		{
-			"Path" : "$(ProjectDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-Gulf-1172.lib",
+			"Path" : "$(ProjectDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-Gulf-5597.lib",
 			"Type" : "ImportLibrary"
 		}
 	],
