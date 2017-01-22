@@ -16,18 +16,23 @@ void EmptyLinkFunctionForGeneratedCode1Gulf() {}
 	IMPLEMENT_CLASS(AGulfBall, 1507161944);
 	void AGulfGameMode::StaticRegisterNativesAGulfGameMode()
 	{
+		FNativeFunctionRegistrar::RegisterFunction(AGulfGameMode::StaticClass(), "BallInHole",(Native)&AGulfGameMode::execBallInHole);
+		FNativeFunctionRegistrar::RegisterFunction(AGulfGameMode::StaticClass(), "RegisterHoleSpawn",(Native)&AGulfGameMode::execRegisterHoleSpawn);
 	}
-	IMPLEMENT_CLASS(AGulfGameMode, 1173796099);
+	IMPLEMENT_CLASS(AGulfGameMode, 1284821220);
 #if USE_COMPILED_IN_NATIVES
 // Cross Module References
 	ENGINE_API class UClass* Z_Construct_UClass_APawn();
 	ENGINE_API class UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 	ENGINE_API class UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
 	ENGINE_API class UClass* Z_Construct_UClass_UStaticMeshComponent_NoRegister();
+	COREUOBJECT_API class UScriptStruct* Z_Construct_UScriptStruct_FTransform();
 	ENGINE_API class UClass* Z_Construct_UClass_AGameModeBase();
 
 	GULF_API class UClass* Z_Construct_UClass_AGulfBall_NoRegister();
 	GULF_API class UClass* Z_Construct_UClass_AGulfBall();
+	GULF_API class UFunction* Z_Construct_UFunction_AGulfGameMode_BallInHole();
+	GULF_API class UFunction* Z_Construct_UFunction_AGulfGameMode_RegisterHoleSpawn();
 	GULF_API class UClass* Z_Construct_UClass_AGulfGameMode_NoRegister();
 	GULF_API class UClass* Z_Construct_UClass_AGulfGameMode();
 	GULF_API class UPackage* Z_Construct_UPackage__Script_Gulf();
@@ -92,6 +97,45 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 	}
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AGulfBall(Z_Construct_UClass_AGulfBall, &AGulfBall::StaticClass, TEXT("AGulfBall"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AGulfBall);
+	UFunction* Z_Construct_UFunction_AGulfGameMode_BallInHole()
+	{
+		UObject* Outer=Z_Construct_UClass_AGulfGameMode();
+		static UFunction* ReturnFunction = NULL;
+		if (!ReturnFunction)
+		{
+			ReturnFunction = new(EC_InternalUseOnlyConstructor, Outer, TEXT("BallInHole"), RF_Public|RF_Transient|RF_MarkAsNative) UFunction(FObjectInitializer(), NULL, 0x04020401, 65535);
+			ReturnFunction->Bind();
+			ReturnFunction->StaticLink();
+#if WITH_METADATA
+			UMetaData* MetaData = ReturnFunction->GetOutermost()->GetMetaData();
+			MetaData->SetValue(ReturnFunction, TEXT("Category"), TEXT("Gulf"));
+			MetaData->SetValue(ReturnFunction, TEXT("ModuleRelativePath"), TEXT("GulfGameMode.h"));
+#endif
+		}
+		return ReturnFunction;
+	}
+	UFunction* Z_Construct_UFunction_AGulfGameMode_RegisterHoleSpawn()
+	{
+		struct GulfGameMode_eventRegisterHoleSpawn_Parms
+		{
+			FTransform trans;
+		};
+		UObject* Outer=Z_Construct_UClass_AGulfGameMode();
+		static UFunction* ReturnFunction = NULL;
+		if (!ReturnFunction)
+		{
+			ReturnFunction = new(EC_InternalUseOnlyConstructor, Outer, TEXT("RegisterHoleSpawn"), RF_Public|RF_Transient|RF_MarkAsNative) UFunction(FObjectInitializer(), NULL, 0x04820401, 65535, sizeof(GulfGameMode_eventRegisterHoleSpawn_Parms));
+			UProperty* NewProp_trans = new(EC_InternalUseOnlyConstructor, ReturnFunction, TEXT("trans"), RF_Public|RF_Transient|RF_MarkAsNative) UStructProperty(CPP_PROPERTY_BASE(trans, GulfGameMode_eventRegisterHoleSpawn_Parms), 0x0010000000000080, Z_Construct_UScriptStruct_FTransform());
+			ReturnFunction->Bind();
+			ReturnFunction->StaticLink();
+#if WITH_METADATA
+			UMetaData* MetaData = ReturnFunction->GetOutermost()->GetMetaData();
+			MetaData->SetValue(ReturnFunction, TEXT("Category"), TEXT("Gulf"));
+			MetaData->SetValue(ReturnFunction, TEXT("ModuleRelativePath"), TEXT("GulfGameMode.h"));
+#endif
+		}
+		return ReturnFunction;
+	}
 	UClass* Z_Construct_UClass_AGulfGameMode_NoRegister()
 	{
 		return AGulfGameMode::StaticClass();
@@ -109,7 +153,11 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 				UObjectForceRegistration(OuterClass);
 				OuterClass->ClassFlags |= 0x20880288;
 
+				OuterClass->LinkChild(Z_Construct_UFunction_AGulfGameMode_BallInHole());
+				OuterClass->LinkChild(Z_Construct_UFunction_AGulfGameMode_RegisterHoleSpawn());
 
+				OuterClass->AddFunctionToFunctionMapWithOverriddenName(Z_Construct_UFunction_AGulfGameMode_BallInHole(), "BallInHole"); // 623150550
+				OuterClass->AddFunctionToFunctionMapWithOverriddenName(Z_Construct_UFunction_AGulfGameMode_RegisterHoleSpawn(), "RegisterHoleSpawn"); // 820247645
 				OuterClass->StaticLink();
 #if WITH_METADATA
 				UMetaData* MetaData = OuterClass->GetOutermost()->GetMetaData();
@@ -133,8 +181,8 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 			ReturnPackage = CastChecked<UPackage>(StaticFindObjectFast(UPackage::StaticClass(), NULL, FName(TEXT("/Script/Gulf")), false, false));
 			ReturnPackage->SetPackageFlags(PKG_CompiledIn | 0x00000000);
 			FGuid Guid;
-			Guid.A = 0x77DDEF0F;
-			Guid.B = 0xB7DFE592;
+			Guid.A = 0x780AFD4A;
+			Guid.B = 0xB3EC725F;
 			Guid.C = 0x00000000;
 			Guid.D = 0x00000000;
 			ReturnPackage->SetGuid(Guid);
